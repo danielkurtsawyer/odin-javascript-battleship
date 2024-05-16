@@ -1,4 +1,6 @@
 const Gameboard = require('./gameboard');
+const Ship = require('./battleship');
+
 let gameboard = new Gameboard();
 
 describe('Gameboard creation', () => {
@@ -35,19 +37,51 @@ describe('Gameboard ship placement', () => {
     });
     test('Horizontal ship placement with correct params', () => {
         expect(gameboard.placeShip([0, 0], [0, 2], 3)).toBe(true);
-        expect(gameboard.board[0]).toEqual([3, 3, 3, 0, 0, 0, 0, 0, 0, 0]);
+        const ship = new Ship(3);
+        expect(gameboard.board[0]).toEqual([
+            ship,
+            ship,
+            ship,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+        ]);
     });
     test('Vertical ship placement with correct params', () => {
         expect(gameboard.placeShip([1, 2], [5, 2], 5)).toBe(true);
+        const ship = new Ship(5);
         expect(gameboard.board.map((column) => column[2])).toEqual([
-            0, 5, 5, 5, 5, 5, 0, 0, 0, 0,
+            0,
+            ship,
+            ship,
+            ship,
+            ship,
+            ship,
+            0,
+            0,
+            0,
+            0,
         ]);
     });
     test('Ship placement overlap', () => {
         gameboard.placeShip([0, 0], [0, 3], 4);
+        const ship = new Ship(4);
         expect(gameboard.placeShip([0, 2], [3, 2], 4)).toBe(false);
         expect(gameboard.board.map((column) => column[2])).toEqual([
-            4, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ship,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
         ]);
     });
 });

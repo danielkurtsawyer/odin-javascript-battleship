@@ -1,3 +1,5 @@
+const Ship = require('./battleship');
+
 class Gameboard {
     // create a board
     constructor() {
@@ -37,8 +39,10 @@ class Gameboard {
                 length
             )
         ) {
+            // create the new ship object
+            const ship = new Ship(length);
             // place the ship, fill the coordinates with
-            // the ship length to distinguish different types of ships
+            // the reference to the ship object
             if (startCoordinate[0] === endCoordinate[0]) {
                 // horizontal placement
                 const i = startCoordinate[0];
@@ -46,7 +50,7 @@ class Gameboard {
                 const jEnd = Math.max(startCoordinate[1], endCoordinate[1]);
                 // console.log('horizontal placement', jStart, jEnd);
                 for (let j = jStart; j <= jEnd; j++) {
-                    this._board[i][j] = length;
+                    this._board[i][j] = ship;
                 }
             } else if (startCoordinate[1] === endCoordinate[1]) {
                 // vertical placement
@@ -55,7 +59,7 @@ class Gameboard {
                 const iEnd = Math.max(startCoordinate[0], endCoordinate[0]);
                 // console.log('vertical placement', iStart, iEnd);
                 for (let i = iStart; i <= iEnd; i++) {
-                    this._board[i][j] = length;
+                    this._board[i][j] = ship;
                 }
             }
             // placement successful
