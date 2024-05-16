@@ -4,7 +4,7 @@ class Gameboard {
     // create a board
     constructor() {
         // the board is represented by a 10x10 2-dimensional array
-        // 0s are empty spaces, 1 are ship spaces
+        // 0s are empty spaces, ship spaces contain a reference to the ship occupying that space
         this.clear();
     }
 
@@ -39,8 +39,9 @@ class Gameboard {
                 length
             )
         ) {
-            // create the new ship object
+            // create the new ship object to be placed
             const ship = new Ship(length);
+
             // place the ship, fill the coordinates with
             // the reference to the ship object
             if (startCoordinate[0] === endCoordinate[0]) {
