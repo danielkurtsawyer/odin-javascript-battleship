@@ -8,13 +8,7 @@ class Gameboard {
         this.clear();
     }
 
-    // get the array representation of the board
-    // @return the 2d array representation of the board
-    get board() {
-        return this._board;
-    }
-
-    // sets the board to all 0s
+    // sets the board to all 0s and sets variables to starting values
     clear() {
         this._board = [];
         for (let i = 0; i < 10; i++) {
@@ -23,6 +17,21 @@ class Gameboard {
                 this._board[i][j] = 0;
             }
         }
+        this._attacks = [];
+        this._ships = 0;
+        this._sunkenShips = 0;
+    }
+
+    // get the array representation of the board
+    // @return the 2d array representation of the board
+    get board() {
+        return this._board;
+    }
+
+    // get a list of coordinates that have been attacked
+    // @return an array of coordinates previously attacked
+    get attacks() {
+        return this._attacks;
     }
 
     // places a ship on the board, filling the coordinates with a number representing the length of the ship
@@ -64,6 +73,7 @@ class Gameboard {
                 }
             }
             // placement successful
+            this._ships++;
             return true;
         } else {
             // this isn't a valid path for a ship,
@@ -75,6 +85,8 @@ class Gameboard {
     // @param startCoordinate the starting coordinate of the first point of the ship being placed
     // @param endCoordinate the ending coordinate of the last point of the ship being placed
     // @param length the length of the ship being placed
+    // @return true if the ship can be placed on those coordinates
+    // @return false if the ship cannot be placed on those coordinates
     checkShipCoordinateValidity(startCoordinate, endCoordinate, length) {
         // check to ensure coordinates are within board bounds
         if (
@@ -149,6 +161,64 @@ class Gameboard {
 
         // at this point, the move has been proven valid
         return true;
+    }
+
+    // receives and processes an attack
+    // @param coordinate
+    // @return true if attack hits an unattacked ship square
+    // @return false if attack misses or hits an already attacked ship square
+    receiveAttack(coordinate) {
+        const i = coordinate[0];
+        const j = coordinate[1];
+
+        // return false for moves off the game board
+        if (i < 0 || i >= 10 || j < 0 || j >= 10) {
+            return false;
+            // don't worry about storing them since they won't be displayed
+        }
+
+        // if it is a valid move, then we can check if it was a previously attacked square
+        if (
+            JSON.stringify(this._attacks).includes(JSON.stringify(coordinate))
+        ) {
+            // if so, return false
+            return false;
+        }
+
+        // if it is a valid move to an untouched square, check to see if it hit a ship
+        if (this._board[i][j] !== 0) {
+            // if it's not 0, then we hit a ship
+            // send the hit message to the Ship
+            this._board[i][j].hit();
+            // record the attack
+            this._attacks.push(coordinate);
+
+            // check to see if the ship is sunk
+            if (this._board[i][j].isSunk()) {
+                // if so, increment the sunkenShips variable
+                this._sunkenShips++;
+            }
+
+            // and return true
+            return true;
+        } else {
+            // if it is 0, then no ships were harmed
+            // record the coordinate in the attacks array
+            this._attacks.push(coordinate);
+            // and return false
+            return false;
+        }
+    }
+
+    // find if all ships on the gameboard are sunk
+    // @returns true if all ships in play have been sunk
+    // @returns false if not all ships in play have been sunk
+    allShipsSunk() {
+        if (this._sunkenShips >= this._ships) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
