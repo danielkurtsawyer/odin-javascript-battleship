@@ -1,4 +1,4 @@
-const Ship = require('./battleship');
+const Ship = require('../scripts/battleship');
 
 describe('Ship class', () => {
     let ship1 = null;
