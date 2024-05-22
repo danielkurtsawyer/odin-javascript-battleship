@@ -1,7 +1,7 @@
-const Gameboard = require('./gameboard');
-const Ship = require('./battleship');
+import Gameboard from './gameboard';
+import Ship from './battleship';
 
-class Player {
+export default class Player {
     constructor() {
         this._gameboard = new Gameboard();
     }
@@ -9,5 +9,3 @@ class Player {
         return this._gameboard;
     }
 }
-
-module.exports = Player;

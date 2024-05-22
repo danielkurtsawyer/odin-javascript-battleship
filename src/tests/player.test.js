@@ -1,6 +1,6 @@
-const Player = require('../scripts/player');
-const Gameboard = require('../scripts/gameboard');
-const Ship = require('../scripts/battleship');
+import Player from '../scripts/player';
+import Gameboard from '../scripts/gameboard';
+import Ship from '../scripts/battleship';
 
 describe('Player class instance creation', () => {
     const player = new Player();

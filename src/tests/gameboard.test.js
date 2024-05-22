@@ -1,5 +1,5 @@
-const Gameboard = require('../scripts/gameboard');
-const Ship = require('../scripts/battleship');
+import Gameboard from '../scripts/gameboard';
+import Ship from '../scripts/battleship';
 
 let gameboard = new Gameboard();
 

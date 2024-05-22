@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ocean-blue: #4fc1fe;
+}
+
+body {
+    background-color: var(--ocean-blue);
+}

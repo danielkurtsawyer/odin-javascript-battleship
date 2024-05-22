@@ -1,6 +1,6 @@
-const Ship = require('./battleship');
+import Ship from './battleship';
 
-class Gameboard {
+export default class Gameboard {
     // create a board
     constructor() {
         // the board is represented by a 10x10 2-dimensional array
@@ -221,5 +221,3 @@ class Gameboard {
         }
     }
 }
-
-module.exports = Gameboard;

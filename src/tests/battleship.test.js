@@ -1,4 +1,5 @@
-const Ship = require('../scripts/battleship');
+// const Ship = require('../../src/scripts/battleship');
+import Ship from '../scripts/battleship';
 
 describe('Ship class', () => {
     let ship1 = null;
