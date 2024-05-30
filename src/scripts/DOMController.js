@@ -76,4 +76,17 @@ const loadPage = () => {
     }
 };
 
-export { loadPage };
+const renderPlayerBoard = (playerBoardArray) => {
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            if (playerBoardArray[i][j] !== 0) {
+                const shipSquare = document.querySelector(
+                    `.player-board div[i="${i}"][j="${j}"]`
+                );
+                shipSquare.classList.add('ship');
+            }
+        }
+    }
+};
+
+export { loadPage, renderPlayerBoard };
