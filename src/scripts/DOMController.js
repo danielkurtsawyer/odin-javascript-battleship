@@ -76,7 +76,7 @@ const loadPage = () => {
     }
 };
 
-const renderPlayerBoard = (playerBoardArray) => {
+const renderPlayerBoard = (playerBoardArray, attacks) => {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (playerBoardArray[i][j] !== 0) {
@@ -89,4 +89,25 @@ const renderPlayerBoard = (playerBoardArray) => {
     }
 };
 
-export { loadPage, renderPlayerBoard };
+const renderOpponentBoard = (opponentBoardArray, attacks) => {
+    attacks.forEach((coordinatePair) => {
+        const i = coordinatePair[0];
+        const j = coordinatePair[1];
+        const attackedSquare = document.querySelector(
+            `.opponent-board div[i="${i}"][j="${j}"]`
+        );
+        // if the square isn't a 0, it's a ship
+        if (opponentBoardArray[i][j] !== 0) {
+            // fill the space with an X to mark a hit
+            attackedSquare.textContent = 'X';
+            attackedSquare.classList.add('hit');
+        } else {
+            // if it is, then its an empty space
+            // fill the space with an O to mark a miss
+            attackedSquare.textContent = 'O';
+            attackedSquare.classList.add('miss');
+        }
+    });
+};
+
+export { loadPage, renderPlayerBoard, renderOpponentBoard };
