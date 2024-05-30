@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Header-text';
+    src: url('../fonts/DelaGothicOne-Regular.ttf');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,8 +11,51 @@
 
 :root {
     --ocean-blue: #4fc1fe;
+    font-size: 16px;
 }
 
 body {
     background-color: var(--ocean-blue);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: min(100px, 10vh) 1fr 30px;
+}
+
+a:visited {
+    color: black;
+}
+
+header,
+footer {
+    font-family: 'Header-text', 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+        sans-serif;
+    text-align: center;
+    color: black;
+}
+
+header {
+    font-size: min(6.5vw, 60px);
+}
+
+footer {
+    font-size: min(2.5vw, 1rem);
+}
+
+.main-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+}
+
+.main-wrapper-left,
+.main-wrapper-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-board,
+.opponent-board {
+    width: min(80%, 475px);
+    aspect-ratio: 1/1;
+    border: 1px solid black;
 }
