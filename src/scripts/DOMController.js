@@ -49,6 +49,31 @@ const loadPage = () => {
 
     // append the opponentboard to the right div
     right.appendChild(opponentBoard);
+
+    // divide the board into individual squares to form a 10x10 grid
+
+    // remember the numbering convention
+    // coordinate - [i, j]
+    // store this in a custom css attribute for use
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            const playerSquare = document.createElement('div');
+            const opponentSquare = document.createElement('div');
+
+            // the i and j values are swapped
+            // rows going down will be i, and colums going right will be j
+            // since grid fills left to right before moving down, we swap to
+            // ensure the i and j values are consistent with the implementation
+            playerSquare.setAttribute('i', j);
+            playerSquare.setAttribute('j', i);
+            opponentSquare.setAttribute('i', j);
+            opponentSquare.setAttribute('j', i);
+
+            // append each div to the respective board
+            playerBoard.appendChild(playerSquare);
+            opponentBoard.appendChild(opponentSquare);
+        }
+    }
 };
 
 export { loadPage };
