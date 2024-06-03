@@ -149,9 +149,27 @@ const renderOpponentBoard = (opponentBoardArray, attacks) => {
     });
 };
 
+const updateTextOutput = (string) => {
+    const text = document.querySelector('.text-output');
+    text.textContent = string;
+};
+
+const clearBoards = () => {
+    // clear the views for both boards
+    const squares = document.querySelectorAll(
+        '.player-board div, .opponent-board div'
+    );
+    squares.forEach((square) => {
+        square.classList = '';
+        square.textContent = '';
+    });
+};
+
 export {
     loadPage,
     renderPlayerBoardShips,
     renderPlayerBoardAttacks,
     renderOpponentBoard,
+    updateTextOutput,
+    clearBoards,
 };
