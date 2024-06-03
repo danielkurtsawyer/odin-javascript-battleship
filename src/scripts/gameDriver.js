@@ -19,10 +19,7 @@ player.gameboard.placeShip([6, 8], [9, 8], 4);
 player.gameboard.placeShip([2, 8], [2, 4], 5);
 
 // once the board is filled up, render the player board by sending the 2d array representation of the board and the attacks array
-DOMController.renderPlayerBoard(
-    player.gameboard.board,
-    player.gameboard.attacks
-);
+DOMController.renderPlayerBoardShips(player.gameboard.board);
 
 // rendering the opponent board will use the opponent board and attacks array
 
@@ -31,7 +28,21 @@ opponent.gameboard.receiveAttack([0, 0]);
 opponent.gameboard.receiveAttack([5, 5]);
 opponent.gameboard.receiveAttack([9, 9]);
 
+// lets try adding a ship and attacking it to see if it renders
+opponent.gameboard.placeShip([1, 1], [1, 2], 2);
+opponent.gameboard.receiveAttack([1, 1]);
+
 DOMController.renderOpponentBoard(
     opponent.gameboard.board,
     opponent.gameboard.attacks
+);
+
+// let's attack the player board and render the attacks
+player.gameboard.receiveAttack([0, 0]);
+player.gameboard.receiveAttack([2, 4]);
+player.gameboard.receiveAttack([9, 9]);
+
+DOMController.renderPlayerBoardAttacks(
+    player.gameboard.board,
+    player.gameboard.attacks
 );

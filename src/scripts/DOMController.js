@@ -7,8 +7,14 @@ const loadPage = () => {
     main.classList.add('main-wrapper');
     const footer = document.createElement('footer');
 
+    // add a div to display text to the user
+    const textOutputDiv = document.createElement('div');
+    textOutputDiv.classList.add('text-output');
+    textOutputDiv.textContent = 'Welcome to Battleship';
+
     // add to body
     document.body.appendChild(header);
+    document.body.appendChild(textOutputDiv);
     document.body.appendChild(main);
     document.body.appendChild(footer);
 
@@ -36,6 +42,16 @@ const loadPage = () => {
     // append to the main-wrapper
     main.appendChild(left);
     main.appendChild(right);
+
+    // add divs for the labels
+    const playerBoardLabel = document.createElement('div');
+    playerBoardLabel.textContent = 'Player Board';
+    const opponentBoardLabel = document.createElement('div');
+    opponentBoardLabel.textContent = 'Opponent Board';
+
+    // append the label divs to left & right divs
+    left.appendChild(playerBoardLabel);
+    right.appendChild(opponentBoardLabel);
 
     // add divs for the boards
     const playerBoard = document.createElement('div');
@@ -76,7 +92,8 @@ const loadPage = () => {
     }
 };
 
-const renderPlayerBoard = (playerBoardArray, attacks) => {
+const renderPlayerBoardShips = (playerBoardArray) => {
+    // render ships
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (playerBoardArray[i][j] !== 0) {
@@ -87,6 +104,28 @@ const renderPlayerBoard = (playerBoardArray, attacks) => {
             }
         }
     }
+};
+
+const renderPlayerBoardAttacks = (playerBoardArray, attacks) => {
+    // render attacks
+    attacks.forEach((coordinatePair) => {
+        const i = coordinatePair[0];
+        const j = coordinatePair[1];
+        const attackedSquare = document.querySelector(
+            `.player-board div[i="${i}"][j="${j}"]`
+        );
+        // if the square isn't a 0, it's a ship
+        if (playerBoardArray[i][j] !== 0) {
+            // fill the space with an X to mark a hit
+            attackedSquare.textContent = 'X';
+            attackedSquare.classList.add('player-hit');
+        } else {
+            // if it is, then its an empty space
+            // fill the space with an O to mark a miss
+            attackedSquare.textContent = 'O';
+            attackedSquare.classList.add('player-miss');
+        }
+    });
 };
 
 const renderOpponentBoard = (opponentBoardArray, attacks) => {
@@ -100,14 +139,19 @@ const renderOpponentBoard = (opponentBoardArray, attacks) => {
         if (opponentBoardArray[i][j] !== 0) {
             // fill the space with an X to mark a hit
             attackedSquare.textContent = 'X';
-            attackedSquare.classList.add('hit');
+            attackedSquare.classList.add('opponent-hit');
         } else {
             // if it is, then its an empty space
             // fill the space with an O to mark a miss
             attackedSquare.textContent = 'O';
-            attackedSquare.classList.add('miss');
+            attackedSquare.classList.add('opponent-miss');
         }
     });
 };
 
-export { loadPage, renderPlayerBoard, renderOpponentBoard };
+export {
+    loadPage,
+    renderPlayerBoardShips,
+    renderPlayerBoardAttacks,
+    renderOpponentBoard,
+};

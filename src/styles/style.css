@@ -3,6 +3,11 @@
     src: url('../fonts/DelaGothicOne-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'Handwritten-text';
+    src: url('../fonts/PatrickHand-Regular.ttf');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +24,7 @@ body {
     background-color: var(--ocean-blue);
     height: 100vh;
     display: grid;
-    grid-template-rows: min(100px, 10vh) 1fr 30px;
+    grid-template-rows: min(100px, 10vh) 50px 1fr 30px;
 }
 
 a:visited {
@@ -40,6 +45,17 @@ header {
 
 footer {
     font-size: min(2.5vw, 1rem);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.text-output {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-family: 'Handwritten-text';
 }
 
 .main-wrapper {
@@ -51,8 +67,12 @@ footer {
 .main-wrapper-left,
 .main-wrapper-right {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
     align-items: center;
     justify-content: center;
+    font-family: 'Handwritten-text';
+    font-size: 1rem;
 }
 
 .player-board,
@@ -74,16 +94,28 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Handwritten-text', 'Franklin Gothic Medium', 'Arial Narrow',
+        Arial, sans-serif;
 }
 
 div.ship {
     background-color: var(--ship-gray);
 }
 
-div.hit {
+div.opponent-hit {
     background-color: red;
 }
 
-div.miss {
+div.opponent-miss {
     background-color: rgb(71, 233, 71);
+}
+
+div.player-hit {
+    border: 2px solid red;
+    text-shadow: 1px 1px 2px red;
+}
+
+div.player-miss {
+    border: 2px solid rgb(71, 233, 71);
+    text-shadow: 1px 1px 2px rgb(71, 233, 71);
 }
