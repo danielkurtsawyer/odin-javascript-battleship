@@ -136,13 +136,60 @@ export default class Gameboard {
         // if the coordinates are valid, we next have to check to make sure the ship
         // doesn't overlap with pre-existing ships
         if (startCoordinate[0] === endCoordinate[0]) {
-            // horizontal placement
+            // vertical placement
             const i = startCoordinate[0];
             const jStart = Math.min(startCoordinate[1], endCoordinate[1]);
             const jEnd = Math.max(startCoordinate[1], endCoordinate[1]);
-            // console.log('horizontal placement', jStart, jEnd);
+            // console.log('vertical placement', jStart, jEnd);
             for (let j = jStart; j <= jEnd; j++) {
                 if (this._board[i][j] !== 0) {
+                    return false;
+                }
+            }
+        } else if (startCoordinate[1] === endCoordinate[1]) {
+            // horizontal placement
+            const j = startCoordinate[1];
+            const iStart = Math.min(startCoordinate[0], endCoordinate[0]);
+            const iEnd = Math.max(startCoordinate[0], endCoordinate[0]);
+            // console.log('horizontal placement', iStart, iEnd);
+            for (let i = iStart; i <= iEnd; i++) {
+                if (this._board[i][j] !== 0) {
+                    return false;
+                }
+            }
+        }
+
+        // and also ensure that there is a one square buffer between ships
+
+        // vertical placement
+        if (startCoordinate[0] === endCoordinate[0]) {
+            const i = startCoordinate[0];
+            const jStart = Math.min(startCoordinate[1], endCoordinate[1]);
+            const jEnd = Math.max(startCoordinate[1], endCoordinate[1]);
+            let bufferSquares = [];
+            // get the surrounding buffer squares on either side
+            for (let j = jStart - 1; j <= jEnd + 1; j++) {
+                bufferSquares.push([i - 1, j]);
+                bufferSquares.push([i + 1, j]);
+            }
+
+            // also add the same column start/end squares
+            bufferSquares.push([i, jStart - 1]);
+            bufferSquares.push([i, jEnd + 1]);
+
+            // filter out moves not on board
+            bufferSquares = bufferSquares.filter(
+                (coordinate) =>
+                    coordinate[0] >= 0 &&
+                    coordinate[0] < 10 &&
+                    coordinate[1] >= 0 &&
+                    coordinate[1] < 10
+            );
+
+            for (let x = 0; x < bufferSquares.length; x++) {
+                const coordinate = bufferSquares[x];
+                if (this._board[coordinate[0]][coordinate[1]] !== 0) {
+                    console.log('buffer not intact');
                     return false;
                 }
             }
@@ -151,9 +198,30 @@ export default class Gameboard {
             const j = startCoordinate[1];
             const iStart = Math.min(startCoordinate[0], endCoordinate[0]);
             const iEnd = Math.max(startCoordinate[0], endCoordinate[0]);
-            // console.log('vertical placement', iStart, iEnd);
-            for (let i = iStart; i <= iEnd; i++) {
-                if (this._board[i][j] !== 0) {
+            let bufferSquares = [];
+            // get the surrounding buffer squares on either side
+            for (let i = iStart - 1; i <= iEnd + 1; i++) {
+                bufferSquares.push([i, j - 1]);
+                bufferSquares.push([i, j + 1]);
+            }
+
+            // also add the same row start/end squares
+            bufferSquares.push([iStart - 1, j]);
+            bufferSquares.push([iEnd + 1, j]);
+
+            // filter out moves not on board
+            bufferSquares = bufferSquares.filter(
+                (coordinate) =>
+                    coordinate[0] >= 0 &&
+                    coordinate[0] < 10 &&
+                    coordinate[1] >= 0 &&
+                    coordinate[1] < 10
+            );
+
+            for (let x = 0; x < bufferSquares.length; x++) {
+                const coordinate = bufferSquares[x];
+                if (this._board[coordinate[0]][coordinate[1]] !== 0) {
+                    console.log('buffer not intact');
                     return false;
                 }
             }

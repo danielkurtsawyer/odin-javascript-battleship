@@ -33,20 +33,94 @@ const placePlayerShips = () => {
 };
 
 const placeOpponentShips = () => {
-    /* const shipLengths = [2, 3, 3, 4, 5];
+    const shipLengths = [2, 3, 3, 4, 5];
 
-  while (shipLengths.length > 0) {
-      const currentLength = shipLengths.shift();
-      DOMController.updateTextOutput('');
-  }
-  */
+    let currentLength = shipLengths.shift();
 
-    // place opponent ships randomly
-    opponent.gameboard.placeShip([3, 1], [4, 1], 2);
-    opponent.gameboard.placeShip([0, 0], [0, 2], 3);
-    opponent.gameboard.placeShip([6, 2], [6, 5], 4);
-    opponent.gameboard.placeShip([6, 8], [9, 8], 4);
-    opponent.gameboard.placeShip([2, 8], [2, 4], 5);
+    let allShipsPlaced = false;
+
+    while (!allShipsPlaced) {
+        console.log('placing a ship of length ' + currentLength);
+        // place a ship of length two:
+        // generate random start coordinate:
+        let startCoordinate = [
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 10),
+        ];
+        // generate list of possible moves using length of ship
+        let endCoordinates = [];
+        // left
+        endCoordinates.push([
+            startCoordinate[0] - (currentLength - 1),
+            startCoordinate[1],
+        ]);
+        // right
+        endCoordinates.push([
+            startCoordinate[0] + (currentLength - 1),
+            startCoordinate[1],
+        ]);
+        // up
+        endCoordinates.push([
+            startCoordinate[0],
+            startCoordinate[1] - (currentLength - 1),
+        ]);
+        // down
+        endCoordinates.push([
+            startCoordinate[0],
+            startCoordinate[1] + (currentLength - 1),
+        ]);
+
+        // filter out moves off the board
+        endCoordinates = endCoordinates.filter(
+            (coordinate) =>
+                coordinate[0] >= 0 &&
+                coordinate[0] < 10 &&
+                coordinate[1] >= 0 &&
+                coordinate[1] < 10
+        );
+
+        console.table(endCoordinates);
+
+        let validMoveFound = false;
+        while (endCoordinates.length > 0 && validMoveFound === false) {
+            let randIndex = Math.floor(Math.random() * endCoordinates.length);
+            let endCoordinate = endCoordinates.splice(randIndex, 1)[0];
+            console.log(endCoordinate);
+            console.log(
+                'trying ' +
+                    startCoordinate +
+                    ' to ' +
+                    endCoordinate +
+                    ' with ship length ' +
+                    currentLength
+            );
+            if (
+                opponent.gameboard.placeShip(
+                    startCoordinate,
+                    endCoordinate,
+                    currentLength
+                )
+            ) {
+                // if placeShip returns true
+                console.log(
+                    'ship of length ' + currentLength + ' placed successfully'
+                );
+                validMoveFound = true;
+            }
+        }
+
+        if (validMoveFound) {
+            // if a valid move is found, then we move on to the next length ship
+            currentLength = shipLengths.shift();
+            if (currentLength === undefined) {
+                // if the currentLength variable is now undefined, we have placed all the ships
+                // update the while loop condition to stop running the placement loop
+                allShipsPlaced = true;
+            }
+        }
+        console.table(opponent.gameboard.board);
+        // if not, then we go back and regenerate a new start coordinate to try
+    }
 };
 
 const startGame = () => {
