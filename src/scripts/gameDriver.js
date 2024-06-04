@@ -7,26 +7,99 @@ import * as DOMController from './DOMController';
 let playerTurn = false;
 
 const placePlayerShips = () => {
-    /* const shipLengths = [2, 3, 4, 4, 5];
-
-  const currentLength = shipLengths.shift();
-
-  while (shipLengths.length > 0) {
-      DOMController.updateTextOutput(
-          `Click the start coordinate for a ship of length ${currentLength}`
-      );
-  }
-  */
+    DOMController.updateTextOutput(`Planning Phase`);
 
     // prompt player to place ships
     // 1 two space, 1 three space, 2 four space, and 1 five space
 
-    // for now this is prepopulated
-    player.gameboard.placeShip([3, 1], [4, 1], 2);
-    player.gameboard.placeShip([0, 0], [0, 2], 3);
-    player.gameboard.placeShip([6, 2], [6, 5], 4);
-    player.gameboard.placeShip([6, 8], [9, 8], 4);
-    player.gameboard.placeShip([2, 8], [2, 4], 5);
+    const shipLengths = [2, 3, 4, 4, 5];
+
+    let currentLength = shipLengths.shift();
+
+    // variable to determine whether all required ships have been placed
+    let allShipsPlaced = false;
+
+    while (!allShipsPlaced) {
+        const startCoordinateString = prompt(
+            'Enter the start coordinate for a ship of length ' +
+                currentLength +
+                ' in the following format: (column, row):'
+        );
+
+        if (!/\([0-9], *[0-9]\)/.test(startCoordinateString)) {
+            alert(
+                'Invalid input. Coordinate must be in the form (column, row). Please try again.'
+            );
+            // for invalid inputs return to the beginning
+            continue;
+        }
+
+        // input is valid
+        // let's extract the i and j values
+        let match = startCoordinateString.match(/\(([0-9], *[0-9])\)/);
+        const iStart = +match[1][0];
+        const jStart = +match[1][2];
+        const startCoordinate = [iStart, jStart];
+
+        console.log('Start coordinate: ' + startCoordinate);
+
+        // now let's prompt for an end coordinate
+        let validEndCoordinate = false;
+
+        let endCoordinateString = null;
+
+        while (!validEndCoordinate) {
+            endCoordinateString = prompt(
+                'Enter the end coordinate for a ship of length ' +
+                    currentLength +
+                    ' in the following format: (column, row):'
+            );
+            if (!/\([0-9], *[0-9]\)/.test(endCoordinateString)) {
+                alert(
+                    'Invalid input. Coordinate must be in the form (column, row). Please try again.'
+                );
+                // this will return to the start of the nested while loop
+                // since we don't want to have to return all the way to the top of the while loop
+            } else {
+                // valid input, update validEndCoordinate value
+                validEndCoordinate = true;
+            }
+        }
+        // input is valid
+        // let's extract the i and j values
+        match = endCoordinateString.match(/\(([0-9], *[0-9])\)/);
+        const iEnd = +match[1][0];
+        const jEnd = +match[1][2];
+        const endCoordinate = [iEnd, jEnd];
+
+        console.log('End coordinate: ' + endCoordinate);
+
+        if (
+            player.gameboard.placeShip(
+                startCoordinate,
+                endCoordinate,
+                currentLength
+            )
+        ) {
+            // render the player board by sending the 2d array representation of the board and the attacks array
+            DOMController.renderPlayerBoardShips(player.gameboard.board);
+
+            // if successful, move to the next ship length
+            currentLength = shipLengths.shift();
+            // if the current length is now undefined, there is nothing in the shipLengths array
+            // so we have placed all of the required ships
+            if (currentLength === undefined) {
+                // set allShipsPlaced to true so we can break out of the loop
+                allShipsPlaced = true;
+            }
+        } else {
+            // if the placement was unsuccessful, alert the user that it was an invalid placement
+            alert(
+                "Invalid ship placement. Check the coordinates are on the same x or y plane and don't overlap, and that each ship has a one square buffer all the way around"
+            );
+            // and allow the flow to return to the beginning of the loop to try the ship placement again
+        }
+    }
 
     // once the board is filled up, render the player board by sending the 2d array representation of the board and the attacks array
     DOMController.renderPlayerBoardShips(player.gameboard.board);
@@ -242,4 +315,6 @@ DOMController.loadPage();
 const player = new Player();
 const opponent = new Player();
 
-startGame();
+DOMController.updateTextOutput('Game starting momentarily');
+
+setTimeout(startGame, 500);
