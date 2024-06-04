@@ -217,7 +217,7 @@ const restartGame = (time, playerWon) => {
     if (playerWon) {
         const interval = setInterval(() => {
             DOMController.updateTextOutput(
-                `Player won! Restarting game in ${time--} seconds`
+                `Player won! Restarting game in ${time--} seconds...`
             );
             if (time < 0) {
                 clearInterval(interval);
@@ -227,7 +227,7 @@ const restartGame = (time, playerWon) => {
     } else {
         const interval = setInterval(() => {
             DOMController.updateTextOutput(
-                `Player won! Restarting game in ${time--} seconds`
+                `Player won! Restarting game in ${time--} seconds...`
             );
             if (time < 0) {
                 clearInterval(interval);
