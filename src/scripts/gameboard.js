@@ -189,7 +189,7 @@ export default class Gameboard {
             for (let x = 0; x < bufferSquares.length; x++) {
                 const coordinate = bufferSquares[x];
                 if (this._board[coordinate[0]][coordinate[1]] !== 0) {
-                    console.log('buffer not intact');
+                    // console.log('buffer not intact');
                     return false;
                 }
             }
@@ -221,7 +221,7 @@ export default class Gameboard {
             for (let x = 0; x < bufferSquares.length; x++) {
                 const coordinate = bufferSquares[x];
                 if (this._board[coordinate[0]][coordinate[1]] !== 0) {
-                    console.log('buffer not intact');
+                    // console.log('buffer not intact');
                     return false;
                 }
             }

@@ -37,11 +37,12 @@ const placeOpponentShips = () => {
 
     let currentLength = shipLengths.shift();
 
+    // variable to determine whether all required ships have been placed
     let allShipsPlaced = false;
 
+    // run while all ships haven't been placed
     while (!allShipsPlaced) {
-        console.log('placing a ship of length ' + currentLength);
-        // place a ship of length two:
+        // place a ship of length currentLength
         // generate random start coordinate:
         let startCoordinate = [
             Math.floor(Math.random() * 10),
@@ -79,21 +80,12 @@ const placeOpponentShips = () => {
                 coordinate[1] < 10
         );
 
-        console.table(endCoordinates);
-
+        // variable to determine whether a ship has been placed
         let validMoveFound = false;
+        // run while a valid placement hasn't been found and there are still move options available
         while (endCoordinates.length > 0 && validMoveFound === false) {
             let randIndex = Math.floor(Math.random() * endCoordinates.length);
             let endCoordinate = endCoordinates.splice(randIndex, 1)[0];
-            console.log(endCoordinate);
-            console.log(
-                'trying ' +
-                    startCoordinate +
-                    ' to ' +
-                    endCoordinate +
-                    ' with ship length ' +
-                    currentLength
-            );
             if (
                 opponent.gameboard.placeShip(
                     startCoordinate,
@@ -101,10 +93,7 @@ const placeOpponentShips = () => {
                     currentLength
                 )
             ) {
-                // if placeShip returns true
-                console.log(
-                    'ship of length ' + currentLength + ' placed successfully'
-                );
+                // if placeShip returns true, ship was placed successfully
                 validMoveFound = true;
             }
         }
@@ -118,8 +107,8 @@ const placeOpponentShips = () => {
                 allShipsPlaced = true;
             }
         }
-        console.table(opponent.gameboard.board);
-        // if not, then we go back and regenerate a new start coordinate to try
+        // if a valid move wasn't found, then we go return to the top of the loop and
+        // regenerate a new start coordinate to try
     }
 };
 
