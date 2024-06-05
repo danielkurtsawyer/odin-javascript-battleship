@@ -23,7 +23,7 @@ const placePlayerShips = () => {
         const startCoordinateString = prompt(
             'Enter the start coordinate for a ship of length ' +
                 currentLength +
-                ' in the following format: (column, row):'
+                ' in the following format: (column, row): \n Columns are numbered 0-9 from left to right, and rows are numbered 0-9 from top to bottom'
         );
 
         if (!/\([0-9], *[0-9]\)/.test(startCoordinateString)) {
@@ -52,7 +52,7 @@ const placePlayerShips = () => {
             endCoordinateString = prompt(
                 'Enter the end coordinate for a ship of length ' +
                     currentLength +
-                    ' in the following format: (column, row):'
+                    ' in the following format: (column, row): \n Columns are numbered 0-9 from left to right, and rows are numbered 0-9 from top to bottom'
             );
             if (!/\([0-9], *[0-9]\)/.test(endCoordinateString)) {
                 alert(
@@ -95,7 +95,7 @@ const placePlayerShips = () => {
         } else {
             // if the placement was unsuccessful, alert the user that it was an invalid placement
             alert(
-                "Invalid ship placement. Check the coordinates are on the same x or y plane and don't overlap, and that each ship has a one square buffer all the way around"
+                "Invalid ship placement. Check the coordinates are on the same x or y plane and don't overlap, and that each ship has a one square buffer all the way around. Also ensure that the coordinates span the correct length of the ship you are placing."
             );
             // and allow the flow to return to the beginning of the loop to try the ship placement again
         }
